@@ -1,5 +1,6 @@
 <template>
-  <div class="editor">
+  <Navbar />
+  <div class="editor content has-submenu">
     <textarea class="input" :value="input" @input="update"></textarea>
     <div class="output" v-html="output"></div>
   </div>
@@ -9,6 +10,7 @@
 import { marked } from 'marked';
 import { debounce } from 'lodash-es';
 import { ref } from 'vue';
+import Navbar from './components/Navbar.vue';
 
 export default {
   setup() {
@@ -27,6 +29,9 @@ export default {
     output() {
       return marked(this.input);
     },
+  },
+  components: {
+    Navbar,
   },
 };
 </script>
