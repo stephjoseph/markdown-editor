@@ -5,7 +5,7 @@
       class="z-10 flex h-screen min-h-[41.688rem] w-full flex-col overflow-scroll transition-transform duration-300"
       :class="[isSidebarOpen ? 'translate-x-[15.625rem]' : 'translate-x-0']"
     >
-      <Topbar @toggleSidebar="toggleSidebar" />
+      <Topbar @toggleSidebar="toggleSidebar" :isSidebarOpen="isSidebarOpen" />
       <div class="editor content has-submenu bg-100">
         <textarea class="input" :value="input" @input="update"></textarea>
         <div class="output z-10" v-html="output"></div>
