@@ -102,11 +102,11 @@
   }
 
   ul {
-    @apply list-outside list-disc;
+    @apply list-outside list-disc marker:text-orange;
   }
 
   blockquote {
-    @apply mb-5 rounded-[4px] border-l-4 border-solid border-orange bg-200 p-6 marker:text-orange;
+    @apply mb-5 rounded-[4px] border-l-4 border-solid border-orange bg-200 p-6;
 
     p {
       @apply mb-0 font-bold text-700;
