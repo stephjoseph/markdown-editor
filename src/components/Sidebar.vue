@@ -110,7 +110,6 @@ export default {
 
     const toggleMode = () => {
       darkMode.value = !darkMode.value;
-      console.log(darkMode.value);
     };
 
     return {
