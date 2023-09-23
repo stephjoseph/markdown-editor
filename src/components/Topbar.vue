@@ -2,10 +2,21 @@
   <div class="flex bg-800">
     <button
       type="button"
-      class="h-14 w-14 bg-700 px-4 py-5"
+      class="flex h-14 w-14 items-center justify-center bg-700"
       @click="handleClick"
     >
-      <img src="../assets/icon-menu.svg" alt="menu icon" />
+      <img
+        v-if="!isSidebarOpen"
+        class="h-[0.875rem] w-[1.438rem]"
+        src="../assets/icon-menu.svg"
+        alt="menu icon"
+      />
+      <img
+        v-else
+        class="h-[1.125rem] w-[1.125rem]"
+        src="../assets/icon-close.svg"
+        alt="close icon"
+      />
     </button>
     <div class="flex w-full items-center justify-between pl-6 pr-2">
       <div class="flex items-center gap-4">
@@ -34,6 +45,12 @@
 
 <script>
 export default {
+  props: {
+    isSidebarOpen: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup(props, context) {
     const handleClick = () => {
       context.emit('toggleSidebar');
