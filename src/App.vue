@@ -1,14 +1,14 @@
 <template>
-  <div class="flex w-full overflow-x-hidden">
+  <div class="relative flex w-full overflow-x-hidden">
     <Sidebar />
     <div
-      class="z-10 flex w-full flex-col transition-transform duration-300"
+      class="z-10 flex h-screen min-h-[41.688rem] w-full flex-col overflow-scroll transition-transform duration-300"
       :class="[isSidebarOpen ? 'translate-x-[15.625rem]' : 'translate-x-0']"
     >
       <Topbar @toggleSidebar="toggleSidebar" />
-      <div class="editor content has-submenu">
+      <div class="editor content has-submenu bg-100">
         <textarea class="input" :value="input" @input="update"></textarea>
-        <div class="output" v-html="output"></div>
+        <div class="output z-10" v-html="output"></div>
       </div>
     </div>
   </div>
@@ -34,7 +34,6 @@ export default {
 
     const toggleSidebar = () => {
       isSidebarOpen.value = !isSidebarOpen.value;
-      console.log(isSidebarOpen.value);
     };
 
     return { input, update, isSidebarOpen, toggleSidebar };
