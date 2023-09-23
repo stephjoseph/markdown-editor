@@ -120,6 +120,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+// switch styles
 .switch {
   position: relative;
   display: inline-block;
@@ -173,6 +174,7 @@ export default {
   }
 }
 
+// transition styles
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.1s ease;
