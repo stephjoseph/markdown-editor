@@ -6,6 +6,7 @@
       :class="[isSidebarOpen ? 'translate-x-[15.625rem]' : 'translate-x-0']"
     >
       <Topbar @toggleSidebar="toggleSidebar" :isSidebarOpen="isSidebarOpen" />
+      <EditorMobile />
       <Editor />
     </div>
   </div>
@@ -15,6 +16,7 @@
 import { ref } from 'vue';
 import Topbar from './components/Topbar.vue';
 import Sidebar from './components/Sidebar.vue';
+import EditorMobile from './components/EditorMobile.vue';
 import Editor from './components/Editor.vue';
 
 export default {
@@ -30,6 +32,7 @@ export default {
   components: {
     Topbar,
     Sidebar,
+    EditorMobile,
     Editor,
   },
 };

@@ -1,30 +1,21 @@
 <template>
-  <div class="hidden h-screen min-h-[41.688rem] w-full flex-col md:flex">
-    <div
-      class="relative flex min-h-[2.625rem] w-full items-center bg-200"
-      :class="[showPreview && ' justify-end']"
-    >
+  <div class="flex h-screen min-h-[41.688rem] w-full flex-col md:hidden">
+    <div class="relative flex w-full items-center justify-end bg-200 pl-4 pr-1">
       <Transition name="fade">
         <span
           v-if="showPreview"
           class="font-heading-s absolute left-4 top-3 uppercase text-500"
           >preview</span
         >
-
-        <div v-else class="flex w-full items-center">
-          <span
-            class="font-heading-s w-1/2 border-r border-solid border-300 pb-[0.875rem] pl-4 pt-3 uppercase text-500"
-            >markdown</span
-          >
-          <span
-            class="font-heading-s w-1/2 pb-[0.875rem] pl-4 pt-3 uppercase text-500"
-            >preview</span
-          >
-        </div>
+        <span
+          v-else
+          class="font-heading-s absolute left-4 top-3 uppercase text-500"
+          >markdown</span
+        >
       </Transition>
       <button
         type="button"
-        class="absolute right-1 flex h-[2.625rem] w-10 items-center justify-center self-end"
+        class="relative flex h-10 w-10 items-center justify-center self-end"
         @click="togglePreview"
       >
         <Transition name="fade">
@@ -47,20 +38,15 @@
       <Transition name="editor" mode="out-in">
         <div
           v-if="showPreview"
-          class="output box-border h-full w-full overflow-auto px-12 pb-14 pt-6"
+          class="output box-border h-full w-full overflow-auto px-5 pb-14 pt-4"
           v-html="output"
         ></div>
-        <div v-else class="flex w-full">
-          <textarea
-            class="font-markdown-code box-border h-full w-1/2 resize-none overflow-auto border-r border-solid border-300 bg-100 p-4 text-700 outline-none"
-            :value="input"
-            @input="update"
-          ></textarea>
-          <div
-            class="output box-border h-full w-1/2 overflow-auto px-5 pb-14 pt-4"
-            v-html="output"
-          ></div>
-        </div>
+        <textarea
+          v-else
+          class="font-markdown-code box-border h-full w-full resize-none overflow-auto bg-100 p-4 text-700 outline-none"
+          :value="input"
+          @input="update"
+        ></textarea>
       </Transition>
     </div>
   </div>
