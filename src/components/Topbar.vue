@@ -18,7 +18,7 @@
         alt="close icon"
       />
     </button>
-    <div class="flex w-full items-center justify-between pl-6 pr-2">
+    <div class="flex w-full items-center justify-between pl-6 pr-2 md:pr-4">
       <div class="flex items-center gap-4">
         <div class="h-4 w-[0.875rem]">
           <img
@@ -34,9 +34,12 @@
           <img src="../assets/icon-delete.svg" alt="delete icon" />
         </button>
         <button
-          class="h-10 w-10 rounded-[4px] bg-orange p-3 hover:bg-orange-hover"
+          class="flex h-10 w-10 items-center justify-center rounded-[4px] bg-orange hover:bg-orange-hover md:w-[9.5rem] md:gap-2"
         >
           <img src="../assets/icon-save.svg" alt="save icon" />
+          <span class="font-heading-m hidden capitalize text-100 md:inline"
+            >save changes</span
+          >
         </button>
       </div>
     </div>
