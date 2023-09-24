@@ -6,7 +6,7 @@
       <div class="flex flex-col gap-[1.688rem]">
         <a
           href="/"
-          class="font-['Commissioner'] text-[0.938rem] font-bold uppercase leading-[1.125rem] tracking-[5px] text-100"
+          class="font-['Commissioner'] text-[0.938rem] font-bold uppercase leading-[1.125rem] tracking-[5px] text-100 xl:hidden"
           >markdown</a
         >
         <div class="flex flex-col gap-6">

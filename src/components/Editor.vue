@@ -47,7 +47,7 @@
       <Transition name="editor" mode="out-in">
         <div
           v-if="showPreview"
-          class="output box-border h-full w-full overflow-auto px-12 pb-14 pt-6"
+          class="output box-border h-full w-full overflow-auto px-12 pb-14 pt-6 xl:px-96"
           v-html="output"
         ></div>
         <div v-else class="flex w-full">
