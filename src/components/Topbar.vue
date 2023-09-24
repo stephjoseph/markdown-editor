@@ -2,18 +2,18 @@
   <div class="flex bg-800">
     <button
       type="button"
-      class="flex h-14 w-14 items-center justify-center bg-700"
+      class="flex h-14 w-14 items-center justify-center bg-700 md:h-[4.5rem] md:w-[4.5rem]"
       @click="handleClick"
     >
       <img
         v-if="!isSidebarOpen"
-        class="h-[0.875rem] w-[1.438rem]"
+        class="h-[0.875rem] w-[1.438rem] md:h-[1.125rem] md:w-[1.875rem]"
         src="../assets/icon-menu.svg"
         alt="menu icon"
       />
       <img
         v-else
-        class="h-[1.125rem] w-[1.125rem]"
+        class="h-[1.125rem] w-[1.125rem] md:h-[1.375rem] md:w-[1.375rem]"
         src="../assets/icon-close.svg"
         alt="close icon"
       />
@@ -27,7 +27,12 @@
             alt="document icon"
           />
         </div>
-        <span class="font-heading-m text-100">welcome.md</span>
+        <div class="flex flex-col gap-1">
+          <span class="font-body hidden capitalize text-500 md:block"
+            >document name</span
+          >
+          <span class="font-heading-m text-100">welcome.md</span>
+        </div>
       </div>
       <div class="flex items-center gap-4">
         <button class="h-[2.125rem] w-[2.125rem] p-2">
