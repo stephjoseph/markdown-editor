@@ -19,7 +19,7 @@
       />
     </button>
     <div class="flex w-full items-center">
-      <div class="xl: hidden items-center pl-6 pr-[1.75rem] xl:block">
+      <div class="hidden w-[11.5rem] items-center pl-6 pr-[1.75rem] xl:block">
         <a
           href="/"
           class="hidden font-['Commissioner'] text-[0.938rem] font-bold uppercase leading-[1.125rem] tracking-[5px] text-100 xl:block"
