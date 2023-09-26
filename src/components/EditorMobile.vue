@@ -1,15 +1,17 @@
 <template>
   <div class="flex h-screen min-h-[41.688rem] w-full flex-col md:hidden">
-    <div class="relative flex w-full items-center justify-end bg-200 pl-4 pr-1">
+    <div
+      class="relative flex w-full items-center justify-end bg-200 pl-4 pr-1 transition-colors duration-300 dark:bg-900"
+    >
       <Transition name="fade">
         <span
           v-if="showPreview"
-          class="font-heading-s absolute left-4 top-3 uppercase text-500"
+          class="font-heading-s absolute left-4 top-3 uppercase text-500 transition-colors duration-300 dark:text-400"
           >preview</span
         >
         <span
           v-else
-          class="font-heading-s absolute left-4 top-3 uppercase text-500"
+          class="font-heading-s absolute left-4 top-3 uppercase text-500 transition-colors duration-300 dark:text-400"
           >markdown</span
         >
       </Transition>
@@ -23,18 +25,34 @@
             v-if="showPreview"
             src="../assets/icon-hide-preview.svg"
             alt="hide preview icon"
-            class="absolute left-3 top-[0.781rem]"
+            class="absolute left-3 top-[0.781rem] dark:hidden"
           />
           <img
             v-else
             src="../assets/icon-show-preview.svg"
             alt="show preview icon"
-            class="absolute left-3 top-[0.875rem]"
+            class="absolute left-3 top-[0.875rem] dark:hidden"
+          />
+        </Transition>
+        <Transition name="fade">
+          <img
+            v-if="showPreview"
+            src="../assets/icon-hide-preview-dark.svg"
+            alt="hide preview icon"
+            class="absolute left-3 top-[0.781rem] hidden dark:block"
+          />
+          <img
+            v-else
+            src="../assets/icon-show-preview-dark.svg"
+            alt="show preview icon"
+            class="absolute left-3 top-[0.875rem] hidden dark:block"
           />
         </Transition>
       </button>
     </div>
-    <div class="content has-submenu flex h-full w-screen bg-100">
+    <div
+      class="content has-submenu flex h-full w-screen bg-100 transition-colors duration-300 dark:bg-1000"
+    >
       <Transition name="editor" mode="out-in">
         <div
           v-if="showPreview"
@@ -43,7 +61,7 @@
         ></div>
         <textarea
           v-else
-          class="font-markdown-code box-border h-full w-full resize-none overflow-auto bg-100 p-4 text-700 outline-none"
+          class="font-markdown-code box-border h-full w-full resize-none overflow-auto bg-100 p-4 text-700 outline-none transition-colors duration-300 dark:bg-1000 dark:text-400"
           :value="input"
           @input="update"
         ></textarea>
