@@ -71,7 +71,7 @@
           </Transition>
         </div>
         <label class="switch">
-          <input type="checkbox" @click="toggleMode" v-model="darkMode" />
+          <input type="checkbox" v-model="darkMode" />
           <div class="slider round"></div>
         </label>
         <div class="relative h-[1.125rem] w-[1.125rem]">
@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 export default {
   props: {
@@ -108,14 +108,16 @@ export default {
   setup() {
     const darkMode = ref(false);
 
-    const toggleMode = () => {
-      darkMode.value = !darkMode.value;
-    };
+    // Watch for changes in darkMode and update the body class accordingly
+    watch(darkMode, (newValue) => {
+      if (newValue) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+    });
 
-    return {
-      darkMode,
-      toggleMode,
-    };
+    return { darkMode };
   },
 };
 </script>
