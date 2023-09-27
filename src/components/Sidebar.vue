@@ -112,12 +112,27 @@ export default {
     watch(darkMode, (newValue) => {
       if (newValue) {
         document.body.classList.add('dark');
+        localStorage.theme = 'dark';
       } else {
         document.body.classList.remove('dark');
+        localStorage.theme = 'light';
       }
     });
 
     return { darkMode };
+  },
+  mounted() {
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.body.classList.add('dark');
+      this.darkMode = true;
+    } else {
+      document.body.classList.remove('dark');
+      this.darkMode = false;
+    }
   },
 };
 </script>
