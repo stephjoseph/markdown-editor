@@ -44,7 +44,11 @@
           </div>
         </div>
         <div class="flex items-center gap-4">
-          <button class="h-[2.125rem] w-[2.125rem] p-2">
+          <button
+            class="h-[2.125rem] w-[2.125rem] p-2"
+            type="button"
+            @click="openModal"
+          >
             <img src="../assets/icon-delete.svg" alt="delete icon" />
           </button>
           <button
@@ -59,9 +63,16 @@
       </div>
     </div>
   </div>
+  <Transition name="fade">
+    <div v-if="isDeleteModalOpen">
+      <DeleteModal @closeModal="isDeleteModalOpen = false" />
+    </div>
+  </Transition>
 </template>
 
 <script>
+import { ref } from 'vue';
+import DeleteModal from './DeleteModal.vue';
 export default {
   props: {
     isSidebarOpen: {
@@ -70,11 +81,34 @@ export default {
     },
   },
   setup(props, context) {
+    const isDeleteModalOpen = ref(false);
+
     const handleClick = () => {
       context.emit('toggleSidebar');
     };
 
-    return { handleClick };
+    const openModal = () => {
+      isDeleteModalOpen.value = true;
+    };
+
+    return { isDeleteModalOpen, handleClick, openModal };
+  },
+  components: {
+    DeleteModal,
+    DeleteModal,
   },
 };
 </script>
+
+<style lang="scss" scoped>
+// transition styles
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
