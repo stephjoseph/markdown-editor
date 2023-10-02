@@ -47,7 +47,7 @@
           <button
             class="h-[2.125rem] w-[2.125rem] p-2"
             type="button"
-            @click="openModal"
+            @click="toggleModal"
           >
             <img src="../assets/icon-delete.svg" alt="delete icon" />
           </button>
@@ -65,7 +65,7 @@
   </div>
   <Transition name="fade">
     <div v-if="isDeleteModalOpen">
-      <DeleteModal @closeModal="isDeleteModalOpen = false" />
+      <DeleteModal @closeModal="toggleModal" />
     </div>
   </Transition>
 </template>
@@ -87,11 +87,12 @@ export default {
       context.emit('toggleSidebar');
     };
 
-    const openModal = () => {
-      isDeleteModalOpen.value = true;
+    const toggleModal = () => {
+      isDeleteModalOpen.value = !isDeleteModalOpen.value;
+      context.emit('toggleModal');
     };
 
-    return { isDeleteModalOpen, handleClick, openModal };
+    return { isDeleteModalOpen, handleClick, toggleModal };
   },
   components: {
     DeleteModal,

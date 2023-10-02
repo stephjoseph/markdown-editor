@@ -2,10 +2,17 @@
   <div class="relative flex w-full overflow-x-hidden">
     <Sidebar />
     <div
-      class="z-10 flex h-screen min-h-[41.688rem] w-full flex-col overflow-scroll transition-transform duration-300"
-      :class="[isSidebarOpen ? 'translate-x-[15.625rem]' : 'translate-x-0']"
+      class="z-10 flex h-screen min-h-[41.688rem] w-full flex-col transition-transform duration-300"
+      :class="[
+        isSidebarOpen ? 'translate-x-[15.625rem]' : 'translate-x-0',
+        isDeleteModalOpen ? 'overflow-hidden' : 'overflow-scroll',
+      ]"
     >
-      <Topbar @toggleSidebar="toggleSidebar" :isSidebarOpen="isSidebarOpen" />
+      <Topbar
+        @toggleSidebar="toggleSidebar"
+        @toggleModal="toggleModal"
+        :isSidebarOpen="toggleModal"
+      />
       <EditorMobile />
       <Editor />
     </div>
@@ -22,12 +29,17 @@ import Editor from './components/Editor.vue';
 export default {
   setup() {
     const isSidebarOpen = ref(false);
+    const isDeleteModalOpen = ref(false);
 
     const toggleSidebar = () => {
       isSidebarOpen.value = !isSidebarOpen.value;
     };
 
-    return { isSidebarOpen, toggleSidebar };
+    const toggleModal = () => {
+      isDeleteModalOpen.value = !isDeleteModalOpen.value;
+    };
+
+    return { isSidebarOpen, isDeleteModalOpen, toggleSidebar, toggleModal };
   },
   components: {
     Topbar,
