@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex w-full overflow-x-hidden">
+  <!-- <div class="relative flex w-full overflow-x-hidden">
     <Sidebar />
     <div
       class="z-10 flex h-screen min-h-[41.688rem] w-full flex-col transition-transform duration-300"
@@ -11,16 +11,18 @@
       <Topbar
         @toggleSidebar="toggleSidebar"
         @toggleModal="toggleModal"
-        :isSidebarOpen="toggleModal"
+        :isSidebarOpen="isSidebarOpen"
       />
       <EditorMobile />
       <Editor />
     </div>
-  </div>
+  </div> -->
+  <RouterView />
 </template>
 
 <script>
 import { ref } from 'vue';
+import { RouterView } from 'vue-router';
 import Topbar from './components/Topbar.vue';
 import Sidebar from './components/Sidebar.vue';
 import EditorMobile from './components/EditorMobile.vue';
