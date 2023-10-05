@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/Home.vue';
+
 import Document from '../views/Document.vue';
 
 const router = createRouter({
@@ -8,12 +8,13 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      redirect: '/welcome',
     },
     {
       path: '/:slug',
       name: 'document',
       component: Document,
+      props: true,
     },
   ],
 });
