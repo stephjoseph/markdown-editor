@@ -17,12 +17,20 @@
       <Editor />
     </div>
   </div> -->
+  <div v-if="documents.length">
+    <div v-for="document in documents" :key="document.name">
+      <RouterLink :to="{ name: 'document', params: { slug: document.name } }">
+        {{ document.name }}.md
+      </RouterLink>
+    </div>
+  </div>
+
   <RouterView />
 </template>
 
 <script>
-import { ref } from 'vue';
-import { RouterView } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { RouterView, RouterLink } from 'vue-router';
 import Topbar from './components/Topbar.vue';
 import Sidebar from './components/Sidebar.vue';
 import EditorMobile from './components/EditorMobile.vue';
@@ -32,6 +40,7 @@ export default {
   setup() {
     const isSidebarOpen = ref(false);
     const isDeleteModalOpen = ref(false);
+    const documents = ref([]);
 
     const toggleSidebar = () => {
       isSidebarOpen.value = !isSidebarOpen.value;
@@ -41,7 +50,28 @@ export default {
       isDeleteModalOpen.value = !isDeleteModalOpen.value;
     };
 
-    return { isSidebarOpen, isDeleteModalOpen, toggleSidebar, toggleModal };
+    const getDocuments = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/documents');
+        const data = await response.json();
+        documents.value = data;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // Fetch data when the component is mounted
+    onMounted(() => {
+      getDocuments();
+    });
+
+    return {
+      isSidebarOpen,
+      isDeleteModalOpen,
+      toggleSidebar,
+      toggleModal,
+      documents,
+    };
   },
   components: {
     Topbar,
