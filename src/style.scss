@@ -5,6 +5,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background: white;
+
+  &.dark {
+    background: black;
+  }
+}
+
 .font {
   &-body {
     @apply font-['Roboto'] text-[0.813rem] font-light leading-[0.95rem] tracking-normal;

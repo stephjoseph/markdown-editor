@@ -1,13 +1,16 @@
 <template>
   <div v-if="doc">
-    <div v-html="doc.content"></div>
+    <EditorMobile :input="doc.content" />
+    <Editor :input="doc.content" />
   </div>
-  <div v-else>Loading..</div>
+  <!-- <div v-else>Loading..</div> -->
 </template>
 
 <script>
 import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import EditorMobile from '../components/EditorMobile.vue';
+import Editor from '../components/Editor.vue';
 
 export default {
   props: {
@@ -47,6 +50,10 @@ export default {
     );
 
     return { doc };
+  },
+  components: {
+    Editor,
+    EditorMobile,
   },
 };
 </script>

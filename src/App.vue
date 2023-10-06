@@ -1,6 +1,6 @@
 <template>
-  <!-- <div class="relative flex w-full overflow-x-hidden">
-    <Sidebar />
+  <div class="relative flex w-full overflow-x-hidden">
+    <Sidebar :documents="documents" />
     <div
       class="z-10 flex h-screen min-h-[41.688rem] w-full flex-col transition-transform duration-300"
       :class="[
@@ -13,28 +13,16 @@
         @toggleModal="toggleModal"
         :isSidebarOpen="isSidebarOpen"
       />
-      <EditorMobile />
-      <Editor />
-    </div>
-  </div> -->
-  <div v-if="documents.length">
-    <div v-for="document in documents" :key="document.name">
-      <RouterLink :to="{ name: 'document', params: { slug: document.name } }">
-        {{ document.name }}.md
-      </RouterLink>
+      <RouterView />
     </div>
   </div>
-
-  <RouterView />
 </template>
 
 <script>
 import { ref, onMounted } from 'vue';
-import { RouterView, RouterLink } from 'vue-router';
+import { RouterView, RouterLink, useRoute } from 'vue-router';
 import Topbar from './components/Topbar.vue';
 import Sidebar from './components/Sidebar.vue';
-import EditorMobile from './components/EditorMobile.vue';
-import Editor from './components/Editor.vue';
 
 export default {
   setup() {
@@ -76,8 +64,6 @@ export default {
   components: {
     Topbar,
     Sidebar,
-    EditorMobile,
-    Editor,
   },
 };
 </script>

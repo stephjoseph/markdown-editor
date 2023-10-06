@@ -19,8 +19,13 @@
               + New Document
             </button>
           </div>
-          <div class="flex flex-col gap-[1.625rem]">
-            <a href="#" class="flex w-full items-center gap-4">
+          <div v-if="documents.length" class="flex flex-col gap-[1.625rem]">
+            <RouterLink
+              v-for="document in documents"
+              :key="document.name"
+              :to="{ name: 'document', params: { slug: document.name } }"
+              class="flex w-full items-center gap-4"
+            >
               <div class="h-4 w-[0.875rem]">
                 <img
                   class="h-full w-full object-cover"
@@ -29,27 +34,14 @@
                 />
               </div>
               <div class="flex flex-col gap-1">
-                <span class="font-body text-500">01 April 2022</span>
+                <span class="font-body text-500">{{
+                  formatDate(document.createdAt)
+                }}</span>
                 <span class="font-heading-m text-100"
-                  >untitled-document.md</span
+                  >{{ document.name }}.md</span
                 >
               </div>
-            </a>
-            <a href="#" class="flex w-full items-center gap-4">
-              <div class="h-4 w-[0.875rem]">
-                <img
-                  class="h-full w-full object-cover"
-                  src="../assets/icon-document.svg"
-                  alt="document icon"
-                />
-              </div>
-              <div class="flex flex-col gap-1">
-                <span class="font-body text-500">01 April 2022</span>
-                <span class="font-heading-m text-100"
-                  >untitled-document.md</span
-                >
-              </div>
-            </a>
+            </RouterLink>
           </div>
         </div>
       </div>
@@ -97,6 +89,7 @@
 
 <script>
 import { ref, watch } from 'vue';
+import { RouterLink } from 'vue-router';
 
 export default {
   props: {
@@ -104,10 +97,13 @@ export default {
       type: Boolean,
       default: false,
     },
+    documents: {
+      type: Array,
+      default: [],
+    },
   },
   setup() {
     const darkMode = ref(false);
-
     // Watch for changes in darkMode and update the body class accordingly
     watch(darkMode, (newValue) => {
       if (newValue) {
@@ -119,7 +115,29 @@ export default {
       }
     });
 
-    return { darkMode };
+    const formatDate = (inputDate) => {
+      const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ];
+
+      const [mm, dd, yyyy] = inputDate.split('-').map(Number);
+      const monthName = months[mm - 1];
+
+      return `${dd} ${monthName} ${yyyy}`;
+    };
+
+    return { darkMode, formatDate };
   },
   mounted() {
     if (
