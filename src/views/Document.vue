@@ -1,16 +1,20 @@
 <template>
-  <div v-if="doc">
+  <div v-if="doc" class="bg-1000">
     <EditorMobile :input="doc.content" />
     <Editor :input="doc.content" />
   </div>
-  <!-- <div v-else>Loading..</div> -->
+  <div v-else class="h-screen min-h-[41.688rem] w-full bg-black text-100">
+    <Spinner />
+  </div>
 </template>
 
 <script>
-import { ref, onMounted, watch } from 'vue';
+import { watch } from 'vue';
 import { useRoute } from 'vue-router';
 import EditorMobile from '../components/EditorMobile.vue';
 import Editor from '../components/Editor.vue';
+import Spinner from '../components/Spinner.vue';
+import getDoc from '../composables/getDoc';
 
 export default {
   props: {
@@ -21,31 +25,15 @@ export default {
   },
   setup(props) {
     const route = useRoute();
-    const doc = ref(null);
 
-    const getDocument = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/documents');
-        const data = await response.json();
+    let { doc, load } = getDoc(props.slug);
 
-        const filteredData = data.filter((doc) => doc.name === props.slug);
-        doc.value = filteredData[0];
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    // Fetch data when the component is mounted
-    onMounted(() => {
-      doc.value = null;
-      getDocument();
-    });
+    load();
 
     watch(
       () => route.fullPath, // Use route.fullPath or any specific route property you want to watch
       () => {
-        doc.value = null;
-        getDocument();
+        location.reload();
       },
     );
 
@@ -54,6 +42,7 @@ export default {
   components: {
     Editor,
     EditorMobile,
+    Spinner,
   },
 };
 </script>

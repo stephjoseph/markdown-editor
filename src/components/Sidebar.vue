@@ -11,7 +11,7 @@
         >
         <div class="flex flex-col gap-6">
           <div class="flex flex-col gap-[1.813rem]">
-            <div class="font-heading-s uppercase text-500">my documents</div>
+            <div class="font-heading-s uppercase text-500">my docs</div>
             <button
               type="button"
               class="font-heading-m rounded-[4px] bg-orange py-3 text-white hover:bg-orange-hover active:bg-orange-hover"
@@ -19,11 +19,11 @@
               + New Document
             </button>
           </div>
-          <div v-if="documents.length" class="flex flex-col gap-[1.625rem]">
+          <div v-if="docs.length" class="flex flex-col gap-[1.625rem]">
             <RouterLink
-              v-for="document in documents"
-              :key="document.name"
-              :to="{ name: 'document', params: { slug: document.name } }"
+              v-for="doc in docs"
+              :key="doc.name"
+              :to="{ name: 'document', params: { slug: doc.name } }"
               class="flex w-full items-center gap-4"
             >
               <div class="h-4 w-[0.875rem]">
@@ -35,11 +35,9 @@
               </div>
               <div class="flex flex-col gap-1">
                 <span class="font-body text-500">{{
-                  formatDate(document.createdAt)
+                  formatDate(doc.createdAt)
                 }}</span>
-                <span class="font-heading-m text-100"
-                  >{{ document.name }}.md</span
-                >
+                <span class="font-heading-m text-100">{{ doc.name }}.md</span>
               </div>
             </RouterLink>
           </div>
@@ -97,7 +95,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    documents: {
+    docs: {
       type: Array,
       default: [],
     },
