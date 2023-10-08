@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex w-full overflow-x-hidden">
-    <Sidebar :documents="documents" />
+    <Sidebar :docs="docs" />
     <div
       class="z-10 flex h-screen min-h-[41.688rem] w-full flex-col transition-transform duration-300"
       :class="[
@@ -19,16 +19,19 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import { RouterView, RouterLink, useRoute } from 'vue-router';
+import { ref } from 'vue';
+import { RouterView } from 'vue-router';
 import Topbar from './components/Topbar.vue';
 import Sidebar from './components/Sidebar.vue';
+import getDocs from './composables/getDocs';
 
 export default {
   setup() {
     const isSidebarOpen = ref(false);
     const isDeleteModalOpen = ref(false);
-    const documents = ref([]);
+    const { docs, load } = getDocs();
+
+    load();
 
     const toggleSidebar = () => {
       isSidebarOpen.value = !isSidebarOpen.value;
@@ -38,27 +41,12 @@ export default {
       isDeleteModalOpen.value = !isDeleteModalOpen.value;
     };
 
-    const getDocuments = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/documents');
-        const data = await response.json();
-        documents.value = data;
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    // Fetch data when the component is mounted
-    onMounted(() => {
-      getDocuments();
-    });
-
     return {
       isSidebarOpen,
       isDeleteModalOpen,
       toggleSidebar,
       toggleModal,
-      documents,
+      docs,
     };
   },
   components: {
