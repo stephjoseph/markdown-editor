@@ -40,9 +40,7 @@
             <span class="font-body hidden capitalize text-500 md:block"
               >document name</span
             >
-            <span class="font-heading-m text-100"
-              >{{ $route.params.slug }}.md</span
-            >
+            <span class="font-heading-m text-100">{{ doc.name }}.md</span>
           </div>
         </div>
         <div class="flex items-center gap-4">
@@ -75,15 +73,22 @@
 <script>
 import { ref } from 'vue';
 import DeleteModal from './DeleteModal.vue';
+import { useRoute } from 'vue-router';
 export default {
   props: {
     isSidebarOpen: {
       type: Boolean,
       default: false,
     },
+    docs: {
+      type: Array,
+      default: [],
+    },
   },
   setup(props, context) {
+    const route = useRoute();
     const isDeleteModalOpen = ref(false);
+    const doc = ref('');
 
     const handleClick = () => {
       context.emit('toggleSidebar');
@@ -94,7 +99,9 @@ export default {
       context.emit('toggleModal');
     };
 
-    return { isDeleteModalOpen, handleClick, toggleModal };
+    doc.value = props.docs.find((doc) => doc.id === route.params.id);
+
+    return { isDeleteModalOpen, handleClick, toggleModal, doc };
   },
   components: {
     DeleteModal,

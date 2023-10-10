@@ -12,6 +12,7 @@
         @toggleSidebar="toggleSidebar"
         @toggleModal="toggleModal"
         :isSidebarOpen="isSidebarOpen"
+        :docs="docs"
       />
       <RouterView />
     </div>
