@@ -104,10 +104,7 @@ export default {
     // methods
     const update = debounce(function (e) {
       input.value = e.target.value;
-      console.log(e.target.value);
-
       formattedString.value = e.target.value.replace(/\n/g, '\\n');
-      console.log(formattedString.value);
     }, 100);
     const togglePreview = () => {
       showPreview.value = !showPreview.value;

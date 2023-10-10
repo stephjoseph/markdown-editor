@@ -83,13 +83,16 @@ export default {
   },
   setup(props) {
     // data
-    const input = ref(props.input);
+    const formattedInput = props.input.replace(/\\n/g, '\n');
+    const formattedString = ref('');
+    const input = ref(formattedInput);
     const output = computed(() => marked(input.value));
     const showPreview = ref(false);
 
     // methods
     const update = debounce(function (e) {
       input.value = e.target.value;
+      formattedString.value = e.target.value.replace(/\n/g, '\\n');
     }, 100);
     const togglePreview = () => {
       showPreview.value = !showPreview.value;
