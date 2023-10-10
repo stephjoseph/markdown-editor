@@ -69,9 +69,9 @@
         <div v-else class="flex w-full">
           <textarea
             class="font-markdown-code box-border h-full w-1/2 resize-none overflow-auto border-r border-solid border-300 bg-100 p-4 text-700 outline-none transition-colors duration-300 dark:border-600 dark:bg-1000 dark:text-400"
-            :value="input"
             @input="update"
-          ></textarea>
+            >{{ input }}</textarea
+          >
           <div
             class="output box-border h-full w-1/2 overflow-auto px-5 pb-14 pt-4"
             v-html="output"
@@ -95,13 +95,19 @@ export default {
   },
   setup(props) {
     // data
-    const input = ref(props.input);
+    const formattedInput = props.input.replace(/\\n/g, '\n');
+    const formattedString = ref('');
+    const input = ref(formattedInput);
     const output = computed(() => marked(input.value));
     const showPreview = ref(false);
 
     // methods
     const update = debounce(function (e) {
       input.value = e.target.value;
+      console.log(e.target.value);
+
+      formattedString.value = e.target.value.replace(/\n/g, '\\n');
+      console.log(formattedString.value);
     }, 100);
     const togglePreview = () => {
       showPreview.value = !showPreview.value;

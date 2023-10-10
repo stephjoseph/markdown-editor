@@ -1,20 +1,15 @@
 import { ref } from 'vue';
+import { projectFirestore } from '../firebase/config';
 
-const getDoc = (slug) => {
+const getDoc = (id) => {
   let doc = ref(null);
 
   const load = async () => {
     try {
-      // simulate delay
-      await new Promise((resolve) => {
-        setTimeout(resolve, 2000);
-      });
+      let res = await projectFirestore.collection('documents').doc(id).get();
 
-      const response = await fetch('http://localhost:3000/documents');
-      const data = await response.json();
-
-      const filteredData = data.filter((doc) => doc.name === slug);
-      doc.value = filteredData[0];
+      doc.value = { ...res.data(), id: res.id };
+      console.log(doc.value);
     } catch (error) {
       console.error('Error fetching data:', error);
     }

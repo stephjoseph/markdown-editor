@@ -96,6 +96,10 @@ body {
     @apply mb-5 font-['Roboto_Slab'] text-[0.875rem] font-normal leading-6 tracking-normal text-500 transition-colors duration-300 dark:text-400;
   }
 
+  a {
+    @apply underline;
+  }
+
   ul,
   ol {
     @apply mb-4 ml-6;
