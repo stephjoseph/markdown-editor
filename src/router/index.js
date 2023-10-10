@@ -11,7 +11,7 @@ const router = createRouter({
       redirect: '/welcome',
     },
     {
-      path: '/:slug',
+      path: '/:id',
       name: 'document',
       component: Document,
       props: true,

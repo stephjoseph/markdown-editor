@@ -18,7 +18,7 @@ import getDoc from '../composables/getDoc';
 
 export default {
   props: {
-    slug: {
+    id: {
       type: String,
       default: '',
     },
@@ -26,7 +26,7 @@ export default {
   setup(props) {
     const route = useRoute();
 
-    let { doc, load } = getDoc(props.slug);
+    let { doc, load } = getDoc(props.id);
 
     load();
 

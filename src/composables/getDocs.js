@@ -1,19 +1,16 @@
 import { ref } from 'vue';
+import { projectFirestore } from '../firebase/config';
 
 const getDocs = () => {
   const docs = ref([]);
 
   const load = async () => {
     try {
-      // simulate delay
-      await new Promise((resolve) => {
-        setTimeout(resolve, 2000);
+      const res = await projectFirestore.collection('documents').get();
+
+      docs.value = res.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
       });
-
-      const response = await fetch('http://localhost:3000/documents');
-      const data = await response.json();
-
-      docs.value = data;
     } catch (error) {
       console.error('Error fetching data:', error);
     }

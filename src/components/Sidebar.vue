@@ -22,8 +22,8 @@
           <div v-if="docs.length" class="flex flex-col gap-[1.625rem]">
             <RouterLink
               v-for="doc in docs"
-              :key="doc.name"
-              :to="{ name: 'document', params: { slug: doc.name } }"
+              :key="doc.id"
+              :to="{ name: 'document', params: { id: doc.id } }"
               class="flex w-full items-center gap-4"
             >
               <div class="h-4 w-[0.875rem]">
@@ -34,9 +34,7 @@
                 />
               </div>
               <div class="flex flex-col gap-1">
-                <span class="font-body text-500">{{
-                  formatDate(doc.createdAt)
-                }}</span>
+                <span class="font-body text-500">{{ doc.id }}</span>
                 <span class="font-heading-m text-100">{{ doc.name }}.md</span>
               </div>
             </RouterLink>
