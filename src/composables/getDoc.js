@@ -9,7 +9,6 @@ const getDoc = (id) => {
       let res = await projectFirestore.collection('documents').doc(id).get();
 
       doc.value = { ...res.data(), id: res.id };
-      console.log(doc.value);
     } catch (error) {
       console.error('Error fetching data:', error);
     }

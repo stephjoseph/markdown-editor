@@ -15,6 +15,7 @@
             <button
               type="button"
               class="font-heading-m rounded-[4px] bg-orange py-3 text-white hover:bg-orange-hover active:bg-orange-hover"
+              @click="createDoc"
             >
               + New Document
             </button>
@@ -85,7 +86,8 @@
 
 <script>
 import { ref, watch } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
+import { projectFirestore } from '../firebase/config';
 
 export default {
   props: {
@@ -100,6 +102,7 @@ export default {
   },
   setup() {
     const darkMode = ref(false);
+    const router = useRouter();
     // Watch for changes in darkMode and update the body class accordingly
     watch(darkMode, (newValue) => {
       if (newValue) {
@@ -111,29 +114,19 @@ export default {
       }
     });
 
-    const formatDate = (inputDate) => {
-      const months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-      ];
+    const createDoc = async () => {
+      const doc = {
+        name: 'untitled-document',
+        content: '',
+        createdAt: '',
+      };
 
-      const [mm, dd, yyyy] = inputDate.split('-').map(Number);
-      const monthName = months[mm - 1];
+      const res = await projectFirestore.collection('documents').add(doc);
 
-      return `${dd} ${monthName} ${yyyy}`;
+      router.push('/');
     };
 
-    return { darkMode, formatDate };
+    return { darkMode, createDoc };
   },
   mounted() {
     if (

@@ -12,6 +12,7 @@
       </p>
       <button
         class="text-heading-m h-10 w-full rounded-[4px] bg-orange capitalize text-100 hover:bg-orange-hover active:bg-orange-hover"
+        @click="handleDelete"
       >
         confirm & delete
       </button>
@@ -20,13 +21,28 @@
 </template>
 
 <script>
+import { projectFirestore } from '../firebase/config';
+import { useRouter } from 'vue-router';
+
 export default {
+  props: {
+    id: {
+      type: String,
+      default: '',
+    },
+  },
   setup(props, context) {
+    const router = useRouter();
     const closeModal = () => {
       context.emit('closeModal');
     };
 
-    return { closeModal };
+    const handleDelete = async () => {
+      await projectFirestore.collection('documents').doc(props.id).delete();
+      router.push('/');
+    };
+
+    return { closeModal, handleDelete };
   },
 };
 </script>
