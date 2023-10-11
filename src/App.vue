@@ -1,57 +1,26 @@
 <template>
   <div class="relative flex w-full overflow-x-hidden">
     <Sidebar :docs="docs" />
-    <div
-      class="z-10 flex h-screen min-h-[41.688rem] w-full flex-col transition-transform duration-300"
-      :class="[
-        isSidebarOpen ? 'translate-x-[15.625rem]' : 'translate-x-0',
-        isDeleteModalOpen ? 'overflow-hidden' : 'overflow-scroll',
-      ]"
-    >
-      <Topbar
-        @toggleSidebar="toggleSidebar"
-        @toggleModal="toggleModal"
-        :isSidebarOpen="isSidebarOpen"
-        :docs="docs"
-      />
-      <RouterView />
-    </div>
+    <RouterView />
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
 import { RouterView } from 'vue-router';
-import Topbar from './components/Topbar.vue';
 import Sidebar from './components/Sidebar.vue';
 import getDocs from './composables/getDocs';
 
 export default {
   setup() {
-    const isSidebarOpen = ref(false);
-    const isDeleteModalOpen = ref(false);
     const { docs, load } = getDocs();
 
     load();
 
-    const toggleSidebar = () => {
-      isSidebarOpen.value = !isSidebarOpen.value;
-    };
-
-    const toggleModal = () => {
-      isDeleteModalOpen.value = !isDeleteModalOpen.value;
-    };
-
     return {
-      isSidebarOpen,
-      isDeleteModalOpen,
-      toggleSidebar,
-      toggleModal,
       docs,
     };
   },
   components: {
-    Topbar,
     Sidebar,
   },
 };

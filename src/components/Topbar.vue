@@ -40,7 +40,7 @@
             <span class="font-body hidden capitalize text-500 md:block"
               >document name</span
             >
-            <span class="font-heading-m text-100">{{}}.md</span>
+            <span class="font-heading-m text-100">{{ doc.name }}.md</span>
           </div>
         </div>
         <div class="flex items-center gap-4">
@@ -65,7 +65,7 @@
   </div>
   <Transition name="fade">
     <div v-if="isDeleteModalOpen">
-      <DeleteModal @closeModal="toggleModal" />
+      <DeleteModal @closeModal="toggleModal" :id="doc.id" />
     </div>
   </Transition>
 </template>
@@ -80,15 +80,13 @@ export default {
       type: Boolean,
       default: false,
     },
-    docs: {
-      type: Array,
-      default: [],
+    doc: {
+      type: Object,
+      default: {},
     },
   },
   setup(props, context) {
-    const route = useRoute();
     const isDeleteModalOpen = ref(false);
-    const doc = ref('');
 
     const handleClick = () => {
       context.emit('toggleSidebar');
@@ -99,9 +97,7 @@ export default {
       context.emit('toggleModal');
     };
 
-    doc.value = props.docs.find((doc) => doc.id === route.params.id);
-
-    return { isDeleteModalOpen, handleClick, toggleModal, doc };
+    return { isDeleteModalOpen, handleClick, toggleModal };
   },
   components: {
     DeleteModal,

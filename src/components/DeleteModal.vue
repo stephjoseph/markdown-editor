@@ -21,10 +21,18 @@
 
 <script>
 export default {
+  props: {
+    id: {
+      type: String,
+      default: '',
+    },
+  },
   setup(props, context) {
     const closeModal = () => {
       context.emit('closeModal');
     };
+
+    console.log(props.id);
 
     return { closeModal };
   },
