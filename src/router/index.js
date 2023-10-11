@@ -8,7 +8,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      redirect: '/welcome',
+      component: Document,
     },
     {
       path: '/:id',

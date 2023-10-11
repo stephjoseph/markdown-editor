@@ -86,7 +86,7 @@
 
 <script>
 import { ref, watch } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { projectFirestore } from '../firebase/config';
 
 export default {
@@ -102,6 +102,7 @@ export default {
   },
   setup() {
     const darkMode = ref(false);
+    const router = useRouter();
     // Watch for changes in darkMode and update the body class accordingly
     watch(darkMode, (newValue) => {
       if (newValue) {
@@ -113,28 +114,6 @@ export default {
       }
     });
 
-    const formatDate = (inputDate) => {
-      const months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-      ];
-
-      const [mm, dd, yyyy] = inputDate.split('-').map(Number);
-      const monthName = months[mm - 1];
-
-      return `${dd} ${monthName} ${yyyy}`;
-    };
-
     const createDoc = async () => {
       const doc = {
         name: 'untitled-document',
@@ -144,10 +123,10 @@ export default {
 
       const res = await projectFirestore.collection('documents').add(doc);
 
-      console.log(res);
+      router.push('/');
     };
 
-    return { darkMode, formatDate, createDoc };
+    return { darkMode, createDoc };
   },
   mounted() {
     if (
