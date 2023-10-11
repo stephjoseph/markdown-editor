@@ -15,6 +15,7 @@
             <button
               type="button"
               class="font-heading-m rounded-[4px] bg-orange py-3 text-white hover:bg-orange-hover active:bg-orange-hover"
+              @click="createDoc"
             >
               + New Document
             </button>
@@ -86,6 +87,7 @@
 <script>
 import { ref, watch } from 'vue';
 import { RouterLink } from 'vue-router';
+import { projectFirestore } from '../firebase/config';
 
 export default {
   props: {
@@ -133,7 +135,19 @@ export default {
       return `${dd} ${monthName} ${yyyy}`;
     };
 
-    return { darkMode, formatDate };
+    const createDoc = async () => {
+      const doc = {
+        name: 'untitled-document',
+        content: '',
+        createdAt: '',
+      };
+
+      const res = await projectFirestore.collection('documents').add(doc);
+
+      console.log(res);
+    };
+
+    return { darkMode, formatDate, createDoc };
   },
   mounted() {
     if (

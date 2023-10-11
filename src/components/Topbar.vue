@@ -40,7 +40,7 @@
             <span class="font-body hidden capitalize text-500 md:block"
               >document name</span
             >
-            <span class="font-heading-m text-100">{{ doc.name }}.md</span>
+            <span class="font-heading-m text-100">{{}}.md</span>
           </div>
         </div>
         <div class="flex items-center gap-4">
