@@ -87,7 +87,7 @@
 <script>
 import { ref, watch } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
-import { projectFirestore } from '../firebase/config';
+import { projectFirestore, timestamp } from '../firebase/config';
 
 export default {
   props: {
@@ -118,7 +118,7 @@ export default {
       const doc = {
         name: 'untitled-document',
         content: '',
-        createdAt: '',
+        createdAt: timestamp(),
       };
 
       const res = await projectFirestore.collection('documents').add(doc);
