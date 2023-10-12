@@ -27,7 +27,10 @@
         >
       </div>
       <div class="pointer-events-none hidden h-10 w-px bg-600 xl:block"></div>
-      <div class="flex w-full items-center justify-between pl-6 pr-2 md:pr-4">
+      <div
+        v-if="doc"
+        class="flex w-full items-center justify-between pl-6 pr-2 md:pr-4"
+      >
         <div class="flex items-center gap-4">
           <div class="h-4 w-[0.875rem]">
             <img
