@@ -7,7 +7,6 @@
     ]"
   >
     <Topbar
-      v-if="doc"
       @toggleSidebar="toggleSidebar"
       @toggleModal="toggleModal"
       :isSidebarOpen="isSidebarOpen"

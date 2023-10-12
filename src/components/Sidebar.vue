@@ -13,6 +13,7 @@
           <div class="flex flex-col gap-[1.813rem]">
             <div class="font-heading-s uppercase text-500">my docs</div>
             <button
+              v-if="docs.length"
               type="button"
               class="font-heading-m rounded-[4px] bg-orange py-3 text-white hover:bg-orange-hover active:bg-orange-hover"
               @click="createDoc"
@@ -35,10 +36,15 @@
                 />
               </div>
               <div class="flex flex-col gap-1">
-                <span class="font-body text-500">{{ doc.id }}</span>
+                <span class="font-body text-500">{{
+                  formatDate(doc.createdAt.toDate())
+                }}</span>
                 <span class="font-heading-m text-100">{{ doc.name }}.md</span>
               </div>
             </RouterLink>
+          </div>
+          <div v-else class="mt-10 flex w-full items-center justify-center">
+            <Spinner />
           </div>
         </div>
       </div>
@@ -85,9 +91,12 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch, computed } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
-import { projectFirestore } from '../firebase/config';
+import { projectFirestore, timestamp } from '../firebase/config';
+import { format } from 'date-fns';
+import enUS from 'date-fns/locale/en-US';
+import Spinner from './Spinner.vue';
 
 export default {
   props: {
@@ -118,7 +127,7 @@ export default {
       const doc = {
         name: 'untitled-document',
         content: '',
-        createdAt: '',
+        createdAt: timestamp(),
       };
 
       const res = await projectFirestore.collection('documents').add(doc);
@@ -126,20 +135,31 @@ export default {
       router.push('/');
     };
 
-    return { darkMode, createDoc };
+    const formatDate = (date) => {
+      return format(date, 'dd MMMM yyyy', {
+        locale: enUS,
+      });
+    };
+
+    onMounted(() => {
+      if (
+        localStorage.theme === 'dark' ||
+        (!('theme' in localStorage) &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.body.classList.add('dark');
+        darkMode.value = true;
+      } else {
+        document.body.classList.remove('dark');
+        darkMode.value = false;
+      }
+    });
+
+    return { darkMode, createDoc, formatDate: computed(() => formatDate) };
   },
-  mounted() {
-    if (
-      localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      document.body.classList.add('dark');
-      this.darkMode = true;
-    } else {
-      document.body.classList.remove('dark');
-      this.darkMode = false;
-    }
+  components: {
+    Spinner,
+    Spinner,
   },
 };
 </script>
