@@ -35,7 +35,9 @@
                 />
               </div>
               <div class="flex flex-col gap-1">
-                <span class="font-body text-500">{{ doc.id }}</span>
+                <span class="font-body text-500">{{
+                  formatDate(doc.createdAt.toDate())
+                }}</span>
                 <span class="font-heading-m text-100">{{ doc.name }}.md</span>
               </div>
             </RouterLink>
@@ -85,9 +87,11 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch, computed } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { projectFirestore, timestamp } from '../firebase/config';
+import { format } from 'date-fns';
+import enUS from 'date-fns/locale/en-US';
 
 export default {
   props: {
@@ -126,20 +130,27 @@ export default {
       router.push('/');
     };
 
-    return { darkMode, createDoc };
-  },
-  mounted() {
-    if (
-      localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      document.body.classList.add('dark');
-      this.darkMode = true;
-    } else {
-      document.body.classList.remove('dark');
-      this.darkMode = false;
-    }
+    const formatDate = (date) => {
+      return format(date, 'dd MMMM yyyy', {
+        locale: enUS,
+      });
+    };
+
+    onMounted(() => {
+      if (
+        localStorage.theme === 'dark' ||
+        (!('theme' in localStorage) &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.body.classList.add('dark');
+        darkMode.value = true;
+      } else {
+        document.body.classList.remove('dark');
+        darkMode.value = false;
+      }
+    });
+
+    return { darkMode, createDoc, formatDate: computed(() => formatDate) };
   },
 };
 </script>

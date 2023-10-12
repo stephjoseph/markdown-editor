@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "date-fns": "^2.30.0",
     "firebase": "8.0.0",
     "json-server": "^0.17.4",
     "lodash-es": "^4.17.21",
