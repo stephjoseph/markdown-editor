@@ -13,6 +13,7 @@
           <div class="flex flex-col gap-[1.813rem]">
             <div class="font-heading-s uppercase text-500">my docs</div>
             <button
+              v-if="docs.length"
               type="button"
               class="font-heading-m rounded-[4px] bg-orange py-3 text-white hover:bg-orange-hover active:bg-orange-hover"
               @click="createDoc"
@@ -41,6 +42,9 @@
                 <span class="font-heading-m text-100">{{ doc.name }}.md</span>
               </div>
             </RouterLink>
+          </div>
+          <div v-else class="mt-10 flex w-full items-center justify-center">
+            <Spinner />
           </div>
         </div>
       </div>
@@ -92,6 +96,7 @@ import { RouterLink, useRouter } from 'vue-router';
 import { projectFirestore, timestamp } from '../firebase/config';
 import { format } from 'date-fns';
 import enUS from 'date-fns/locale/en-US';
+import Spinner from './Spinner.vue';
 
 export default {
   props: {
@@ -151,6 +156,10 @@ export default {
     });
 
     return { darkMode, createDoc, formatDate: computed(() => formatDate) };
+  },
+  components: {
+    Spinner,
+    Spinner,
   },
 };
 </script>
