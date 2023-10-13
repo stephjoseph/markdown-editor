@@ -6,9 +6,14 @@ const getDoc = (id) => {
 
   const load = async () => {
     try {
-      let res = await projectFirestore.collection('documents').doc(id).get();
-
-      doc.value = { ...res.data(), id: res.id };
+      let res = await projectFirestore
+        .collection('documents')
+        .doc(id)
+        .onSnapshot((snap) => {
+          if (snap.exists) {
+            doc.value = { ...snap.data(), id: snap.id };
+          }
+        });
     } catch (error) {
       console.error('Error fetching data:', error);
     }

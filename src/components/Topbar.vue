@@ -68,7 +68,7 @@
   </div>
   <Transition name="fade">
     <div v-if="isDeleteModalOpen">
-      <DeleteModal @closeModal="toggleModal" :id="doc.id" />
+      <DeleteModal @closeModal="toggleModal" :id="doc.id" :name="doc.name" />
     </div>
   </Transition>
 </template>

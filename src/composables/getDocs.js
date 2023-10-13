@@ -6,11 +6,19 @@ const getDocs = () => {
 
   const load = async () => {
     try {
-      const res = await projectFirestore.collection('documents').orderBy('createdAt', 'desc').get();
+      const res = await projectFirestore
+        .collection('documents')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot((snap) => {
+          let items = snap.docs.map((item) => {
+            return {
+              ...item.data(),
+              id: item.id,
+            };
+          });
 
-      docs.value = res.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id };
-      });
+          docs.value = items;
+        });
     } catch (error) {
       console.error('Error fetching data:', error);
     }
