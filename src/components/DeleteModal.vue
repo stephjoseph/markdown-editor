@@ -7,8 +7,10 @@
       <div class="font-preview-h4 text-700">Delete this document?</div>
       <p class="font-preview-paragraph text-500">
         Are you sure you want to delete the
-        <strong><em>‘welcome.md’</em></strong> document and its contents? This
-        action cannot be reversed.
+        <strong
+          ><em>‘{{ name }}.md’</em></strong
+        >
+        document and its contents? This action cannot be reversed.
       </p>
       <button
         class="text-heading-m h-10 w-full rounded-[4px] bg-orange capitalize text-100 hover:bg-orange-hover active:bg-orange-hover"
@@ -27,6 +29,10 @@ import { useRouter } from 'vue-router';
 export default {
   props: {
     id: {
+      type: String,
+      default: '',
+    },
+    name: {
       type: String,
       default: '',
     },
