@@ -74,16 +74,17 @@
 import { marked } from 'marked';
 import { debounce } from 'lodash-es';
 import { ref, computed } from 'vue';
+import { projectFirestore } from '../firebase/config';
 export default {
   props: {
-    input: {
-      type: String,
-      default: '',
+    doc: {
+      type: Object,
+      default: {},
     },
   },
   setup(props) {
     // data
-    const formattedInput = props.input.replace(/\\n/g, '\n');
+    const formattedInput = props.doc.content.replace(/\\n/g, '\n');
     const formattedString = ref('');
     const input = ref(formattedInput);
     const output = computed(() => marked(input.value));
@@ -99,6 +100,20 @@ export default {
     };
 
     return { input, output, update, showPreview, togglePreview };
+  },
+  methods: {
+    async saveChanges() {
+      let formattedInput = this.input.replace(/\n/g, '\\n');
+
+      try {
+        await projectFirestore
+          .collection('documents')
+          .doc(this.doc.id)
+          .update({ content: formattedInput });
+      } catch (error) {
+        console.error('Error saving document:', error);
+      }
+    },
   },
 };
 </script>

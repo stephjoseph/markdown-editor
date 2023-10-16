@@ -56,6 +56,7 @@
           </button>
           <button
             class="flex h-10 w-10 items-center justify-center rounded-[4px] bg-orange hover:bg-orange-hover md:w-[9.5rem] md:gap-2"
+            @click="handleSave"
           >
             <img src="../assets/icon-save.svg" alt="save icon" />
             <span class="font-heading-m hidden capitalize text-100 md:inline"
@@ -100,7 +101,11 @@ export default {
       context.emit('toggleModal');
     };
 
-    return { isDeleteModalOpen, handleClick, toggleModal };
+    const handleSave = () => {
+      context.emit('save')
+    }
+
+    return { isDeleteModalOpen, handleClick, toggleModal, handleSave };
   },
   components: {
     DeleteModal,

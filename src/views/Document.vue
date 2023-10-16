@@ -9,12 +9,13 @@
     <Topbar
       @toggleSidebar="toggleSidebar"
       @toggleModal="toggleModal"
+      @save="handleSave"
       :isSidebarOpen="isSidebarOpen"
       :doc="doc"
     />
     <div v-if="doc" class="bg-1000">
-      <EditorMobile :input="doc.content" />
-      <Editor :input="doc.content" />
+      <EditorMobile ref="editorMobile" :doc="doc" />
+      <Editor ref="editor" :doc="doc" />
     </div>
     <div
       v-else
@@ -77,6 +78,30 @@ export default {
     Editor,
     EditorMobile,
     Spinner,
+  },
+  methods: {
+    handleSave() {
+      if (window.innerWidth < 768) {
+        this.$refs.editorMobile.saveChanges();
+      } else {
+        this.$refs.editor.saveChanges();
+      }
+    },
+    handleKeyPress(e) {
+      // Check if the key pressed is "S" and the Ctrl (or Command) key is pressed
+      if (e.key === 's' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        this.handleSave();
+      }
+    },
+  },
+  created() {
+    // Add a global event listener for keydown
+    window.addEventListener('keydown', this.handleKeyPress);
+  },
+  beforeUnmount() {
+    // Remove the event listener when the component is unmounted
+    window.removeEventListener('keydown', this.handleKeyPress);
   },
 };
 </script>
