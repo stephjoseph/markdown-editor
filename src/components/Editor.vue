@@ -86,16 +86,17 @@
 import { marked } from 'marked';
 import { debounce } from 'lodash-es';
 import { ref, computed } from 'vue';
+import { projectFirestore } from '../firebase/config';
 export default {
   props: {
-    input: {
-      type: String,
-      default: '',
+    doc: {
+      type: Object,
+      default: {},
     },
   },
   setup(props) {
     // data
-    const formattedInput = props.input.replace(/\\n/g, '\n');
+    const formattedInput = props.doc.content.replace(/\\n/g, '\n');
     const formattedString = ref('');
     const input = ref(formattedInput);
     const output = computed(() => marked(input.value));
@@ -104,13 +105,35 @@ export default {
     // methods
     const update = debounce(function (e) {
       input.value = e.target.value;
-      formattedString.value = e.target.value.replace(/\n/g, '\\n');
+      formattedString.value = input.value.replace(/\n/g, '\\n');
     }, 100);
     const togglePreview = () => {
       showPreview.value = !showPreview.value;
     };
 
-    return { input, output, update, showPreview, togglePreview };
+    return {
+      input,
+      output,
+      update,
+      showPreview,
+      togglePreview,
+      formattedString,
+    };
+  },
+  methods: {
+    async saveChanges() {
+      let formattedInput = this.input.replace(/\n/g, '\\n');
+
+      try {
+        await projectFirestore
+          .collection('documents')
+          .doc(this.doc.id)
+          .update({ content: formattedInput });
+      } catch (error) {
+        console.error('Error saving document:', error);
+      }
+      // window.location.reload();
+    },
   },
 };
 </script>
