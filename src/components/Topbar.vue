@@ -54,7 +54,7 @@
               v-model="docName"
               @blur="stopEditing"
               @keydown.enter="stopEditing"
-              class="font-heading-m w-32 border-b border-solid border-100 bg-transparent pb-1 text-100 caret-orange focus:outline-none md:w-[15rem] xl:w-[25rem]"
+              class="font-heading-m w-36 border-b border-solid border-100 bg-transparent pb-1 text-100 caret-orange focus:outline-none md:w-[15rem] xl:w-[25rem]"
             />
           </div>
         </div>
