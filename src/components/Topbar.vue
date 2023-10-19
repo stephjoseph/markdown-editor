@@ -43,7 +43,19 @@
             <span class="font-body hidden capitalize text-500 md:block"
               >document name</span
             >
-            <span class="font-heading-m text-100">{{ doc.name }}.md</span>
+            <span
+              v-if="!isEditing"
+              class="font-heading-m text-100"
+              @click="startEditing"
+              >{{ docName }}.md</span
+            >
+            <input
+              v-else
+              v-model="docName"
+              @blur="stopEditing"
+              @keydown.enter="stopEditing"
+              class="font-heading-m w-32 border-b border-solid border-100 bg-transparent pb-1 text-100 caret-orange focus:outline-none md:w-[15rem] xl:w-[25rem]"
+            />
           </div>
         </div>
         <div class="flex items-center gap-4">
@@ -75,9 +87,9 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import DeleteModal from './DeleteModal.vue';
-import { useRoute } from 'vue-router';
+import { projectFirestore } from '../firebase/config';
 export default {
   props: {
     isSidebarOpen: {
@@ -90,10 +102,35 @@ export default {
     },
   },
   setup(props, context) {
+    const docName = ref(props.doc && props.doc.name);
     const isDeleteModalOpen = ref(false);
+    const isEditing = ref(false);
 
     const handleClick = () => {
       context.emit('toggleSidebar');
+    };
+
+    const saveChanges = async () => {
+      try {
+        await projectFirestore
+          .collection('documents')
+          .doc(props.doc.id)
+          .update({ name: docName.value });
+      } catch (error) {
+        console.error('Error saving name:', error);
+      }
+    };
+
+    const startEditing = () => {
+      isEditing.value = true;
+    };
+
+    const stopEditing = () => {
+      isEditing.value = false;
+
+      docName.value = slugify(docName.value);
+
+      saveChanges();
     };
 
     const toggleModal = () => {
@@ -102,15 +139,46 @@ export default {
     };
 
     const handleSave = () => {
-      context.emit('save')
-    }
+      context.emit('save');
+    };
 
-    return { isDeleteModalOpen, handleClick, toggleModal, handleSave };
+    const slugify = (text) => {
+      return text
+        .toString()
+        .normalize('NFD') // Normalize unicode characters
+        .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
+        .toLowerCase() // Convert to lowercase
+        .trim() // Trim leading and trailing spaces
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/[^\w-]+/g, '') // Remove non-word characters except hyphens
+        .replace(/--+/g, '-') // Replace multiple hyphens with a single hyphen
+        .replace(/^-+|-+$/g, ''); // Remove leading and trailing hyphens
+    };
+
+    // Watch for changes in the doc prop and update the input value accordingly
+    watch(
+      () => props.doc,
+      (newVal) => {
+        docName.value = newVal.name;
+      },
+    );
+
+    return {
+      isDeleteModalOpen,
+      isEditing,
+      handleClick,
+      toggleModal,
+      handleSave,
+      startEditing,
+      stopEditing,
+      docName,
+    };
   },
   components: {
     DeleteModal,
     DeleteModal,
   },
+  emits: ['toggleSidebar', 'toggleModal', 'save'],
 };
 </script>
 
